@@ -6,7 +6,7 @@ Render PBM and PGM images in Gleam
 [![Hex Docs](https://img.shields.io/badge/hex-docs-ffaff3)](https://hexdocs.pm/netpbm/)
 
 ```sh
-gleam add netpbm@1
+gleam add netpbm@2
 ```
 ```gleam
 import netpbm

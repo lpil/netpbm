@@ -4,14 +4,20 @@ import simplifile
 pub fn main() {
   let pbm =
     netpbm.render_pbm(width: 30, height: 20, state: Nil, pixel: fn(s, x, y) {
-      let pixel = x % 3 == 0 && y % 2 == 0
+      let pixel = case x % 3 == 0 && y % 2 == 0 {
+        True -> netpbm.Black
+        False -> netpbm.White
+      }
       #(s, pixel)
     }).1
   let assert Ok(_) = simplifile.write_bits("out.pbm", pbm)
 
   let pbm =
     netpbm.simple_render_pbm(width: 30, height: 20, pixel: fn(x, y) {
-      x % 3 == 0 && y % 2 == 0
+      case x % 3 == 0 && y % 2 == 0 {
+        True -> netpbm.Black
+        False -> netpbm.White
+      }
     })
   let assert Ok(_) = simplifile.write_bits("out2.pbm", pbm)
 

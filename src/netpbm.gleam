@@ -3,8 +3,6 @@ import gleam/int
 
 /// Build a PBM image by iterating over each pixel.
 ///
-/// True is white, false is black.
-///
 /// The callback gets the X and Y position of the pixel, where 0,0 is
 /// top-left.
 ///
@@ -14,14 +12,17 @@ import gleam/int
 pub fn simple_render_pbm(
   width width: Int,
   height height: Int,
-  pixel plot: fn(Int, Int) -> Bool,
+  pixel plot: fn(Int, Int) -> BlackOrWhite,
 ) -> BitArray {
   render_pbm(width, height, Nil, fn(nil, x, y) { #(nil, plot(x, y)) }).1
 }
 
+pub type BlackOrWhite {
+  Black
+  White
+}
+
 /// Build a PBM image by iterating over each pixel with some state.
-///
-/// True is white, false is black.
 ///
 /// The callback gets the X and Y position of the pixel, where 0,0 is
 /// top-left.
@@ -33,7 +34,7 @@ pub fn render_pbm(
   width width: Int,
   height height: Int,
   state state: state,
-  pixel plot: fn(state, Int, Int) -> #(state, Bool),
+  pixel plot: fn(state, Int, Int) -> #(state, BlackOrWhite),
 ) -> #(state, BitArray) {
   <<"P4 ", int.to_string(width):utf8, " ", int.to_string(height):utf8, " ">>
   |> pbm_loop(width, height, 0, 0, state, plot)
@@ -46,12 +47,12 @@ fn pbm_loop(
   x: Int,
   y: Int,
   state: state,
-  render: fn(state, Int, Int) -> #(state, Bool),
+  render: fn(state, Int, Int) -> #(state, BlackOrWhite),
 ) -> #(state, BitArray) {
   let #(state, pixel) = render(state, x, y)
   let pbm = case pixel {
-    True -> <<pbm:bits, 1:size(1)>>
-    False -> <<pbm:bits, 0:size(1)>>
+    White -> <<pbm:bits, 0:size(1)>>
+    Black -> <<pbm:bits, 1:size(1)>>
   }
   let x = { x + 1 } % width
   case x {
