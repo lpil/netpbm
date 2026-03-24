@@ -1,0 +1,16 @@
+name = "netpbm"
+version = "1.0.0"
+description = "Render PBM and PGM images in Gleam"
+licences = ["Apache-2.0"]
+
+repository = { type = "github", user = "lpil", repo = "netpbm" }
+links = [
+  { title = "Sponsor", href = "https://github.com/sponsors/lpil" },
+]
+
+[dependencies]
+gleam_stdlib = ">= 0.44.0 and < 2.0.0"
+
+[dev_dependencies]
+gleeunit = ">= 1.0.0 and < 2.0.0"
+simplifile = ">= 2.4.0 and < 3.0.0"
